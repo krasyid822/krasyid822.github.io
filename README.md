@@ -1,1 +1,3 @@
-Saat ini hanya menyediakan catatan harga yang didapat dari bill indomaret dan disusun kedalam bentuk katalog.
+# Main Page
+
+Repo yang dihususkan untuk mengindeks dan membuat github page (github.io) di repo lainnya :]
