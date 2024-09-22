@@ -1,28 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sofadi+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sofadi+One&display=swap" rel="stylesheet">
     <base href="page404.html">
-    <title>Index Page</title>
+    <title>Rasyid Kurniawan</title>
+    <h1>Website Index</h1>
+
+    <style>
+        .sofadi-one-regular {
+        font-family: "Sofadi One", system-ui;
+        font-weight: 400;
+        font-style: normal;
+        }
+        .montserrat-400 {
+        font-family: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+        }
+        .button-container{
+            display: block;
+            justify-content: center;
+            align-items: center;
+            height: 40vh;
+            font-weight: bold;
+        }
+        h1, sub {
+            display: block;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+        h1 {
+            margin: 0;
+        }
+        .button {
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            margin: 20 20px;
+        }
+        .button:hover {
+            transform: scale(1.1);
+            border: 1px  red;
+        }
+        @media (max-width: 600px){
+            body {
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+            .button-container {
+                height: 0;
+            }
+            .button {
+                margin: 0 0px;
+            }
+            .button:hover {
+                transform: scale(1);
+                border: 0;
+            }
+            .center {
+            display: none;
+        }
+        }
+        .button img {
+            width: 150px;
+            height: 150px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Website Index</h1>
-    <ul>
-        <li><a href="https://krasyid822.github.io/KalenderAkademikPolmed/">Kalender Akademik Polmed</a></li>
-        <li><a href="https://krasyid822.github.io/KatalogIndomaret/">Katalog Harga Indomaret</a></li>
-        <li><a href="https://krasyid822.github.io/tugasAkhirDesignWeb/">Tugas Akhir Design Web: Membuat website</a></li>
-        <li><a href="https://krasyid822.github.io/blog-for-learning-English/">Blog for learning English Project</a></li>
-        <li><a href="https://krasyid822.github.io/AlMatsurat">Al Matsurat Sugra</a></li>
-        <br>
-        <li><a href="https://krasyid822.github.io/submission-web-dicoding/">Submmission web dicoding</a></li>
-        <li><a href="https://krasyid822.github.io/TwitterEmbed/">Twitter Embed</a></li>
-        <li><a href="https://krasyid822.github.io/Profile-Hover-Challenge/">Profile Hover Challange</a></li>
-        <br>
-        <li><a href="https://github.com/krasyid822/Drive">Drive</a></li>
-        <br>
-        <li><a href="https://www.markdownguide.org/basic-syntax/">Basic Syntax</a></li>
-        <br>
-        <li><a href="">page404 Test</a></li>
-    </ul>
+    <!-- <h1 class="montserrat-400">Al-Matsurat Sugra</h1>
+    <sub class="sofadi-one-regular">Pagi dan Petang</sub> -->
+    <div class="button-container">
+
+        <button class="button" onclick="window.location.href='https://krasyid822.github.io/KalenderAkademikPolmed/'"><img src="rsc\png\kalender-akademik-polmed.png" height="200px" alt="KalenderAkademikPolmed"></button>
+
+        <button class="button" onclick="window.location.href='https://krasyid822.github.io/KatalogIndomaret/'"><img src="rsc\png\katalog-harga-indomaret.png" height="200px" alt="katalog-harga-indomaret"></button>
+
+        <button class="button" onclick="window.location.href='https://krasyid822.github.io/tugasAkhirDesignWeb/'"><img src="rsc\png\tugas-akhir-design-web.png" height="200px" alt="tugasAkhirDesignWeb"></button>
+
+        <button class="button" onclick="window.location.href='https://krasyid822.github.io/blog-for-learning-English/'"><img src="rsc\png\blog-for-learning-english.png" height="200px" alt="blog-for-learning-english"></button>
+
+        <button class="button" onclick="window.location.href='https://krasyid822.github.io/AlMatsurat'"><img src="rsc/png/al-matsurat.png" height="200px" alt="Al-Matsurat"></button>
+
+        <button class="button" onclick="window.location.href='https://krasyid822.github.io/submission-web-dicoding/'"><img src="rsc/png/submission-web-dicoding.png" height="200px" alt="submission-web-dicoding"></button>
+
+        <button class="button" onclick="window.location.href='https://krasyid822.github.io/TwitterEmbed/'"><img src="rsc/png/twitter-embed.png" height="200px" alt="TwitterEmbed"></button>
+
+        <button class="button" onclick="window.location.href='https://krasyid822.github.io/Profile-Hover-Challenge/'"><img src="rsc/png/profile-hover-chalange.png" height="200px" alt="Profile-Hover-Challenge"></button>
+
+        <button class="button" onclick="window.location.href='https://github.com/krasyid822/Drive'"><img src="rsc/png/drive-public.png" height="200px" alt="Drive"></button>
+
+        <button class="button" onclick="window.location.href='https://www.markdownguide.org/basic-syntax/'"><img src="rsc/png/basic-syntax.png" height="200px" alt="basic-syntax"></button>
+
+        <button class="button" onclick="window.location.href=''"><img src="rsc/png/404-page-test.png" height="200px" alt="page404 Test"></button>
+    </div>
+
+    <div class="center">
+    <!-- Elemen input berisi teks yang akan disalin -->
+    <input type="text" id="textToCopy" value="chrome://flags/#enable-force-dark" readonly>
+    <!-- Tombol untuk menyalin teks -->
+    <button onclick="copyToClipboard()">Salin ke Clipboard</button>
+    <!-- Pesan sukses -->
+    <p id="copyMessage"></p>
+    <script>
+        function copyToClipboard() {
+            // Ambil teks dari input
+            var text = document.getElementById("textToCopy").value;
+            // Salin teks ke clipboard
+            navigator.clipboard.writeText(text).then(function() {
+                // Tampilkan pesan sukses
+                document.getElementById("copyMessage").innerText = "Teks berhasil disalin!";
+            }, function() {
+                // Tampilkan pesan jika gagal menyalin
+                document.getElementById("copyMessage").innerText = "Gagal menyalin teks.";
+            });
+        }
+    </script>
+    <sub>Rasakan pengalaman nuansa gelap pada browser anda. Salin link di atas, buka di browser anda dan aktifkan fitur tersebut.</sub>
+    </div>
 </body>
 </html>
