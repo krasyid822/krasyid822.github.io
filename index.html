@@ -77,10 +77,36 @@
             height: 150px;
         }
     </style>
+
+    <script>
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('rsc/js/service-worker.js')
+            .then(registration => {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, err => {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+        });
+        }
+
+        // Fungsi untuk menyalin teks ke clipboard
+        function copyToClipboard() {
+            // Ambil teks dari input
+            var text = document.getElementById("textToCopy").value;
+            // Salin teks ke clipboard
+            navigator.clipboard.writeText(text).then(function() {
+                // Tampilkan pesan sukses
+                document.getElementById("copyMessage").innerText = "Teks berhasil disalin!";
+            }, function() {
+                // Tampilkan pesan jika gagal menyalin
+                document.getElementById("copyMessage").innerText = "Gagal menyalin teks.";
+            });
+        }
+    </script>
 </head>
 <body>
-    <!-- <h1 class="montserrat-400">Al-Matsurat Sugra</h1>
-    <sub class="sofadi-one-regular">Pagi dan Petang</sub> -->
     <div class="button-container">
 
         <button class="button" onclick="window.location.href='https://krasyid822.github.io/KalenderAkademikPolmed/'"><img src="rsc\png\kalender-akademik-polmed.png" height="200px" alt="KalenderAkademikPolmed"></button>
@@ -113,20 +139,7 @@
     <button onclick="copyToClipboard()">Salin ke Clipboard</button>
     <!-- Pesan sukses -->
     <p id="copyMessage"></p>
-    <script>
-        function copyToClipboard() {
-            // Ambil teks dari input
-            var text = document.getElementById("textToCopy").value;
-            // Salin teks ke clipboard
-            navigator.clipboard.writeText(text).then(function() {
-                // Tampilkan pesan sukses
-                document.getElementById("copyMessage").innerText = "Teks berhasil disalin!";
-            }, function() {
-                // Tampilkan pesan jika gagal menyalin
-                document.getElementById("copyMessage").innerText = "Gagal menyalin teks.";
-            });
-        }
-    </script>
+    
     <sub>Rasakan pengalaman nuansa gelap pada browser anda. Salin link di atas, buka di browser anda dan aktifkan fitur tersebut.</sub>
     </div>
 </body>
