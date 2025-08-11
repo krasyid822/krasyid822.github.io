@@ -3,163 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rasyid Kurniawan's Bookmarks</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sofadi+One&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sofadi+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Sofadi+One&display=swap" rel="stylesheet">
     <link rel="icon" type="image/jpg" sizes="32x32" href="rsc/jpg/me.jpg">
-    <base href="page404.html">
-    <title>Rasyid Kurniawan</title>
-    <h1>Website Index</h1>
-
     <style>
-        .sofadi-one-regular {
-        font-family: "Sofadi One", system-ui;
-        font-weight: 400;
-        font-style: normal;
+        :root {
+            --primary-font: "Montserrat", sans-serif;
+            --title-font: "Sofadi One", system-ui;
+            --background-color: #f0f2f5;
+            --card-background: #ffffff;
+            --text-color: #333333;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --accent-color: #007bff;
         }
-        .montserrat-400 {
-        font-family: "Montserrat", sans-serif;
-        font-optical-sizing: auto;
-        font-weight: 400;
-        font-style: normal;
-        }
-        .button-container{
-            display: block;
-            justify-content: center;
-            align-items: center;
-            height: 40vh;
-            font-weight: bold;
-        }
-        h1, sub {
-            display: block;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-        }
-        h1 {
+
+        body {
+            font-family: var(--primary-font);
+            background-color: var(--background-color);
+            color: var(--text-color);
             margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .button {
-            border: none;
-            background-color: transparent;
-            cursor: pointer;
-            margin: 20 20px;
+
+        h1 {
+            font-family: var(--title-font);
+            font-weight: 400;
+            font-style: normal;
+            color: var(--accent-color);
+            margin-bottom: 30px;
         }
-        .button:hover {
-            transform: scale(1.1);
-            border: 1px  red;
-        }
-        .center {
-            position: absolute;
-            bottom: 0;
-            left: 0;
+
+        #shortcut-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
             width: 100%;
-            height: 10%;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 10px;
+            max-width: 1200px;
         }
-        @media (orientation: portrait){
-            body {
-                justify-content: center;
-                align-items: center;
-                text-align: center;
-            }
-            .button-container {
-                height: 0;
-            }
-            .button {
-                margin: 0 0px;
-            }
-            .button:hover {
-                transform: scale(1);
-                border: 0;
-            }
-            .center {
-            display: none;
-            }
+
+        .shortcut-card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            text-decoration: none;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        .button img {
-            width: 150px;
-            height: 150px;
+
+        .shortcut-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px var(--shadow-color);
+        }
+
+        .shortcut-card img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .shortcut-card span {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .footer-feature {
+            background-color: var(--card-background);
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        #textToCopy {
+            width: calc(100% - 120px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .copy-button {
+            padding: 8px 15px;
+            border: none;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
+
+        #copyMessage {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: green;
         }
     </style>
+</head>
+<body>
+
+    <h1>Website Index</h1>
+
+    <div id="shortcut-container"></div>
+
+    <div class="footer-feature">
+        <p>Rasakan pengalaman nuansa gelap pada browser anda. Salin link di bawah, buka di browser anda dan aktifkan fitur tersebut.</p>
+        <div>
+            <input type="text" id="textToCopy" value="chrome://flags/#enable-force-dark" readonly>
+            <button class="copy-button" onclick="copyToClipboard()">Salin</button>
+        </div>
+        <p id="copyMessage"></p>
+    </div>
 
     <script>
-        // Register service worker
-        if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('rsc/js/service-worker.js')
-            .then(registration => {
-                console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            }, err => {
-                console.log('ServiceWorker registration failed: ', err);
-            });
+        // --- Shortcut Data ---
+        const shortcuts = [
+            { name: "KalenderAkademikPolmed", url: "https://krasyid822.github.io/KalenderAkademikPolmed/", img: "rsc/png/kalender-akademik-polmed.png" },
+            { name: "katalog-harga-indomaret", url: "https://krasyid822.github.io/KatalogIndomaret/", img: "rsc/png/katalog-harga-indomaret.png" },
+            { name: "tugasAkhirDesignWeb", url: "https://krasyid822.github.io/tugasAkhirDesignWeb/", img: "rsc/png/tugas-akhir-design-web.png" },
+            { name: "blog-for-learning-english", url: "https://krasyid822.github.io/blog-for-learning-English/", img: "rsc/png/blog-for-learning-english.png" },
+            { name: "AlMatsurat", url: "https://krasyid822.github.io/AlMatsurat", img: "rsc/png/al-matsurat.png" },
+            { name: "ForkThenAddJadwalSholat", url: "https://krasyid822.github.io/submission-web-dicoding/", img: "rsc/png/submission-web-dicoding.png" },
+            { name: "TwitterEmbed", url: "https://krasyid822.github.io/TwitterEmbed/", img: "rsc/png/twitter-embed.png" },
+            { name: "Profile-Hover-Challenge", url: "https://krasyid822.github.io/Profile-Hover-Challenge/", img: "rsc/png/profile-hover-chalange.png" },
+            { name: "drive-public-shared", url: "https://github.com/krasyid822/Drive", img: "rsc/png/drive-public.png" },
+            { name: "basic-syntax", url: "https://www.markdownguide.org/basic-syntax/", img: "rsc/png/basic-syntax.png" },
+            { name: "page404-test", url: "page404.html", img: "rsc/png/404-page-test.png" },
+            { name: "sipadiPWA", url: "https://krasyid822.github.io/sipadiPWA/", img: "rsc/png/sipadi-pwa.png" },
+            { name: "paintPWA", url: "https://krasyid822.github.io/paintPWA/", img: "rsc/png/paint-pwa.png" },
+            { name: "canvaPWA", url: "https://krasyid822.github.io/canvaPWA/", img: "rsc/png/canva-pwa.png" },
+            { name: "JadwalSholatPWA", url: "https://krasyid822.github.io/sholatPWA/", img: "rsc/png/sholat-pwa.png" },
+            { name: "mscopilotPWA", url: "https://krasyid822.github.io/mscopilotPWA/", img: "rsc/jpg/copilot.jpg" },
+            { name: "GeminiPWA", url: "https://krasyid822.github.io/GeminiPWA/", img: "rsc/png/gemini-pwa.png" } // New shortcut
+        ];
+
+        // --- Dynamic Shortcut Generation ---
+        const container = document.getElementById('shortcut-container');
+
+        shortcuts.forEach(shortcut => {
+            const card = document.createElement('a');
+            card.href = shortcut.url;
+            card.className = 'shortcut-card';
+            card.target = "_blank"; // Open in new tab
+            card.rel = "noopener noreferrer";
+
+            const img = document.createElement('img');
+            img.src = shortcut.img;
+            img.alt = shortcut.name;
+
+            const name = document.createElement('span');
+            name.textContent = shortcut.name;
+
+            card.appendChild(img);
+            card.appendChild(name);
+            container.appendChild(card);
         });
+
+        // --- Service Worker Registration ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('rsc/js/service-worker.js')
+                .then(registration => {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
         }
 
-        // Fungsi untuk menyalin teks ke clipboard
+        // --- Clipboard Function ---
         function copyToClipboard() {
-            // Ambil teks dari input
-            var text = document.getElementById("textToCopy").value;
-            // Salin teks ke clipboard
-            navigator.clipboard.writeText(text).then(function() {
-                // Tampilkan pesan sukses
-                document.getElementById("copyMessage").innerText = "Teks berhasil disalin!";
-            }, function() {
-                // Tampilkan pesan jika gagal menyalin
-                document.getElementById("copyMessage").innerText = "Gagal menyalin teks.";
+            const text = document.getElementById("textToCopy").value;
+            const message = document.getElementById("copyMessage");
+            navigator.clipboard.writeText(text).then(() => {
+                message.textContent = "Teks berhasil disalin!";
+                setTimeout(() => { message.textContent = ""; }, 2000); // Clear message after 2 seconds
+            }, () => {
+                message.textContent = "Gagal menyalin teks.";
+                message.style.color = "red";
             });
         }
     </script>
-</head>
-<body>
-    <div class="button-container">
-
-        <button class="button" onclick="window.location.href='https://krasyid822.github.io/KalenderAkademikPolmed/'"><img src="rsc\png\kalender-akademik-polmed.png" height="200px" alt="KalenderAkademikPolmed"><br>KalenderAkademikPolmed</button>
-
-        <button class="button" onclick="window.location.href='https://krasyid822.github.io/KatalogIndomaret/'"><img src="rsc\png\katalog-harga-indomaret.png" height="200px" alt="katalog-harga-indomaret"><br>katalog-harga-indomaret</button>
-
-        <button class="button" onclick="window.location.href='https://krasyid822.github.io/tugasAkhirDesignWeb/'"><img src="rsc\png\tugas-akhir-design-web.png" height="200px" alt="tugasAkhirDesignWeb"><br>tugasAkhirDesignWeb</button>
-
-        <button class="button" onclick="window.location.href='https://krasyid822.github.io/blog-for-learning-English/'"><img src="rsc\png\blog-for-learning-english.png" height="200px" alt="blog-for-learning-english"><br>blog-for-learning-english</button>
-
-        <button class="button" onclick="window.location.href='https://krasyid822.github.io/AlMatsurat'"><img src="rsc/png/al-matsurat.png" height="200px" alt="Al-Matsurat"><br>AlMatsurat</button>
-
-        <button class="button" onclick="window.location.href='https://krasyid822.github.io/submission-web-dicoding/'"><img src="rsc/png/submission-web-dicoding.png" height="200px" alt="submission-web-dicoding"><br>ForkThenAddJadwalSholat</button>
-
-        <button class="button" onclick="window.location.href='https://krasyid822.github.io/TwitterEmbed/'"><img src="rsc/png/twitter-embed.png" height="200px" alt="TwitterEmbed"><br>TwitterEmbed</button>
-
-        <button class="button" onclick="window.location.href='https://krasyid822.github.io/Profile-Hover-Challenge/'"><img src="rsc/png/profile-hover-chalange.png" height="200px" alt="Profile-Hover-Challenge"><br>Profile-Hover-Challenge</button>
-
-        <button class="button" onclick="window.location.href='https://github.com/krasyid822/Drive'"><img src="rsc/png/drive-public.png" height="200px" alt="Drive"><br>drive-public-shared</button>
-
-        <button class="button" onclick="window.location.href='https://www.markdownguide.org/basic-syntax/'"><img src="rsc/png/basic-syntax.png" height="200px" alt="basic-syntax"><br>basic-syntax</button>
-
-        <button class="button" onclick="window.location.href=''"><img src="rsc/png/404-page-test.png" height="200px" alt="page404 Test"><br>page404-test</button>
-        
-        <button class="button" onclick="window.location.href='https://krasyid822.github.io/sipadiPWA/'"><img src="rsc/png/sipadi-pwa.png" height="200px" alt="sipadiPWA"><br>sipadiPWA</button>
-        
-        <button class="button" onclick="window.location.href='https://krasyid822.github.io/paintPWA/'"><img src="rsc/png/paint-pwa.png" height="200px" alt="paintPWA"><br>paintPWA</button>
-        
-        <button class="button" onclick="window.location.href='https://krasyid822.github.io/canvaPWA/'"><img src="rsc/png/canva-pwa.png" height="200px" alt="canvaPWA"><br>canvaPWA</button>
-
-        <button class="button" onclick="window.location.href='https://krasyid822.github.io/sholatPWA/'"><img src="rsc/png/sholat-pwa.png" height="200px" alt="sholatPWA"><br>JadwalSholatPWA</button>
-
-        <button class="button" onclick="window.location.href='https://krasyid822.github.io/mscopilotPWA/'"><img src="rsc/jpg/copilot.jpg" height="200px" alt="copilotPWA"><br>mscopilotPWA</button>
-    </div>
-
-    <div class="center">
-    <!-- Elemen input berisi teks yang akan disalin -->
-    <input type="text" id="textToCopy" value="chrome://flags/#enable-force-dark" readonly>
-    <!-- Tombol untuk menyalin teks -->
-    <button onclick="copyToClipboard()">Salin ke Clipboard</button>
-    <!-- Pesan sukses -->
-    <p id="copyMessage"></p>
-    <sub>Rasakan pengalaman nuansa gelap pada browser anda. Salin link di atas, buka di browser anda dan aktifkan fitur tersebut.</sub>
-    </div>
-    
 </body>
 </html>
