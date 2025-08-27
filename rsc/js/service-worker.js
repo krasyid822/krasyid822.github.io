@@ -1,22 +1,6 @@
-const CACHE_NAME = 'my-site-cache-v1';
+const CACHE_NAME = 'my-site-cache-v2';
 const urlsToCache = [
-  '/',
-  'https://krasyid822.github.io/KalenderAkademikPolmed/',
-  'https://krasyid822.github.io/KatalogIndomaret/',
-  'https://krasyid822.github.io/tugasAkhirDesignWeb/',
-  'https://krasyid822.github.io/blog-for-learning-English/',
-  'https://krasyid822.github.io/blog-for-learning-English/level1.html',
-  'https://krasyid822.github.io/AlMatsurat/',
-  'https://krasyid822.github.io/AlMatsurat/AlMatsurat_Sugro_Pagi.html',
-  'https://krasyid822.github.io/submission-web-dicoding/',
-  'https://krasyid822.github.io/TwitterEmbed/',
-  'https://krasyid822.github.io/Profile-Hover-Challenge/',
-  'https://github.com/krasyid822/Drive',
-  'https://www.markdownguide.org/basic-syntax/',
-  'https://krasyid822.github.io/KalenderAkademikPolmed/',
-  'https://krasyid822.github.io/KalenderAkademikPolmed/',
-  'https://krasyid822.github.io/KalenderAkademikPolmed/',
-  'https://krasyid822.github.io/KalenderAkademikPolmed/'
+  'rsc'
 ];
 
 self.addEventListener('install', event => {
