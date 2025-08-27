@@ -8,6 +8,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Sofadi+One&display=swap" rel="stylesheet">
     <link rel="icon" type="image/jpg" sizes="32x32" href="rsc/jpg/me.jpg">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#007bff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Bookmarks">
+    <link rel="apple-touch-icon" href="rsc/jpg/me.jpg">
     <style>
         :root {
             --primary-font: "Montserrat", sans-serif;
@@ -185,6 +191,19 @@
                 navigator.serviceWorker.register('rsc/js/service-worker.js')
                 .then(registration => {
                     console.log('ServiceWorker registration successful with scope: ', registration.scope);
+
+                    // Handle updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // New version available
+                                if (confirm('Versi baru tersedia! Muat ulang untuk memperbarui?')) {
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    });
                 }, err => {
                     console.log('ServiceWorker registration failed: ', err);
                 });
