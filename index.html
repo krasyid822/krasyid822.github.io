@@ -36,6 +36,11 @@
             align-items: center;
         }
 
+        /* Smooth transitions when switching themes */
+        body, .shortcut-card {
+            transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+        }
+
         h1 {
             font-family: var(--title-font);
             font-weight: 400;
@@ -95,6 +100,81 @@
             max-width: 600px;
         }
 
+        /* Header and dark mode toggle */
+        .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            max-width: 1200px;
+            margin-bottom: 16px;
+        }
+
+        .dark-toggle { display: inline-flex; align-items: center; }
+
+        /* Simple toggle switch */
+        .switch { position: relative; display: inline-block; width: 46px; height: 26px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc; transition: .2s; border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px;
+            background-color: white; transition: .2s; border-radius: 50%;
+        }
+        .switch input:checked + .slider { background-color: var(--accent-color); }
+        .switch input:checked + .slider:before { transform: translateX(20px); }
+
+        /* Toggle icon */
+        .toggle-icon {
+            width: 20px; height: 20px; display: inline-block; margin-left: 8px; background-size: contain; background-repeat: no-repeat; background-position: center;
+        }
+
+        /* Container state to switch icon via JS */
+        .dark-toggle.on .toggle-icon {
+            /* moon icon */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23F5F7FA"><path d="M21 12.79A9 9 0 0111.21 3 7 7 0 1021 12.79z"/></svg>');
+        }
+        .dark-toggle:not(.on) .toggle-icon {
+            /* sun icon */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FDBA74"><path d="M6.76 4.84l-1.8-1.79L3.17 4.84l1.79 1.79 1.8-1.79zM1 13h3v-2H1v2zm10 9h2v-3h-2v3zM17.24 19.16l1.8 1.79 1.79-1.79-1.79-1.79-1.8 1.79zM20 11v2h3v-2h-3zM12 5a7 7 0 100 14 7 7 0 000-14zM4.22 17.66l1.79-1.79-1.79-1.8-1.79 1.8 1.79 1.79zM17.66 6.34l1.79-1.79L17.66 2.76l-1.79 1.79 1.79 1.79z"/></svg>');
+        }
+
+        /* Variant selector styling */
+        #darkThemeVariant { margin-left: 10px; padding: 4px 8px; border-radius: 6px; border: 1px solid #ccc; background: white; color: #222; }
+
+        /* Hide variant selector when dark mode is off */
+        .dark-toggle:not(.on) #darkThemeVariant { display: none; }
+
+        /* Dark theme overrides — base for dark, then per-variant overrides via data-theme */
+        body.dark { }
+        body.dark[data-theme="soft"] {
+            --background-color: #0b1228; /* deep muted blue-gray */
+            --card-background: #0f1a2b;
+            --text-color: #d5e6f3;
+            --shadow-color: rgba(2,6,23,0.5);
+            --accent-color: #4fb3ff;
+        }
+        body.dark[data-theme="dim"] {
+            --background-color: #16120f; /* warm, very dark */
+            --card-background: #221b18;  /* warm card */
+            --text-color: #efe6db;      /* warm cream */
+            --shadow-color: rgba(0,0,0,0.6);
+            --accent-color: #ffb86b;    /* warm amber accent */
+        }
+        body.dark[data-theme="amoled"] {
+            --background-color: #000000; /* pure black */
+            --card-background: #000000;   /* pure black cards */
+            --text-color: #e6eef8;        /* light text */
+            --shadow-color: rgba(0,0,0,0.85);
+            --accent-color: #58a6ff;
+        }
+
+        /* Slightly adapt selector colors in dark mode */
+        body.dark #darkThemeVariant { background: #0b1228; color: var(--text-color); border-color: rgba(255,255,255,0.06); }
+
         #textToCopy {
             width: calc(100% - 120px);
             padding: 8px;
@@ -126,7 +206,21 @@
 </head>
 <body>
 
-    <h1>Website Index</h1>
+    <header class="header-row">
+        <h1>Website Index</h1>
+        <div class="dark-toggle" title="Toggle dark mode">
+            <label class="switch">
+                <input type="checkbox" id="darkModeToggle" aria-label="Toggle dark mode">
+                <span class="slider"></span>
+            </label>
+            <span class="toggle-icon" aria-hidden="true"></span>
+            <select id="darkThemeVariant" title="Theme variant" aria-label="Theme variant">
+                <option value="soft">Soft (default)</option>
+                <option value="dim">Dim (warmer)</option>
+                <option value="amoled">AMOLED (pure black)</option>
+            </select>
+        </div>
+    </header>
 
     <div id="shortcut-container"></div>
 
@@ -145,7 +239,7 @@
             { name: "AppRepoIndex", url: "https://krasyid822.github.io/native-app-repoindex/", img: "rsc/png/apps-index.png" },
             { name: "KalenderAkademikPolmed", url: "https://krasyid822.github.io/KalenderAkademikPolmed/", img: "rsc/png/kalender-akademik-polmed.png" },
             { name: "katalog-harga-indomaret", url: "https://krasyid822.github.io/KatalogIndomaret/", img: "rsc/png/katalog-harga-indomaret.png" },
-            { name: "tugasAkhirDesignWeb", url: "https://krasyid822.github.io/tugasAkhirDesignWeb/", img: "rsc/png/tugas-akhir-design-web.png" },
+            { name: "tugasAkhirDesignWeb", url: "https://krasyid822.github.io/tugasAkhirDesignWeb/", img: "rsc/png/tugas-akhir-design-web.png", forceImg: true },
             { name: "blog-for-learning-english", url: "https://krasyid822.github.io/blog-for-learning-English/", img: "rsc/png/blog-for-learning-english.png" },
             { name: "AlMatsurat", url: "https://krasyid822.github.io/AlMatsurat", img: "rsc/png/al-matsurat.png" },
             { name: "ForkThenAddJadwalSholat", url: "https://krasyid822.github.io/submission-web-dicoding/", img: "rsc/png/submission-web-dicoding.png" },
@@ -154,14 +248,15 @@
             { name: "drive-public-shared", url: "https://github.com/krasyid822/Drive", img: "rsc/png/drive-public.png" },
             { name: "basic-syntax", url: "https://www.markdownguide.org/basic-syntax/", img: "rsc/png/basic-syntax.png" },
             { name: "page404-test", url: "page404.html", img: "rsc/png/404-page-test.png" },
-            { name: "sipadiPWA", url: "https://krasyid822.github.io/sipadiPWA/", img: "rsc/png/sipadi-pwa.png" },
-            { name: "paintPWA", url: "https://krasyid822.github.io/paintPWA/", img: "rsc/png/paint-pwa.png" },
-            { name: "canvaPWA", url: "https://krasyid822.github.io/canvaPWA/", img: "rsc/png/canva-pwa.png" },
+            { name: "sipadiPWA", url: "https://krasyid822.github.io/sipadiPWA/", img: "rsc/png/sipadi-pwa.png", forceImg: true },
+            { name: "paintPWA", url: "https://krasyid822.github.io/paintPWA/", img: "rsc/png/paint-pwa.png", forceImg: true },
+            { name: "canvaPWA", url: "https://krasyid822.github.io/canvaPWA/", img: "rsc/png/canva-pwa.png", forceImg: true },
             { name: "JadwalSholatPWA", url: "https://krasyid822.github.io/sholatPWA/", img: "rsc/png/sholat-pwa.png" },
-            { name: "mscopilotPWA", url: "https://krasyid822.github.io/mscopilotPWA/", img: "rsc/jpg/copilot.jpg" },
+            { name: "mscopilotPWA", url: "https://krasyid822.github.io/mscopilotPWA/", img: "rsc/jpg/copilot.jpg", forceImg: true },
             { name: "perplexityPWA", url: "https://krasyid822.github.io/PerplexityPWA/", img: "rsc/png/perplexity-ai.png" },
             { name: "GeminiPWA", url: "https://krasyid822.github.io/GeminiPWA/", img: "rsc/jpg/gemini-pwa.jpg" },
-            { name: "QR Code Maker", url: "https://krasyid822.github.io/qr-code-maker/", img: "rsc/png/qr-code-maker.png" }
+            { name: "Web Index PHP", url: "https://rasyid.rf.gd/"},
+            { name: "QR Code Maker", url: "https://krasyid822.github.io/qr-code-maker/" }
         ];
 
         // --- Dynamic Shortcut Generation ---
@@ -175,8 +270,43 @@
             card.rel = "noopener noreferrer";
 
             const img = document.createElement('img');
-            img.src = shortcut.img;
             img.alt = shortcut.name;
+
+            // If `forceImg` is set on the shortcut and an `img` is provided,
+            // use the provided image and skip the screenshot service.
+            if (shortcut.forceImg && shortcut.img) {
+                img.src = shortcut.img;
+            } else {
+                // Build absolute target URL: use as-is when full URL, otherwise prepend origin.
+                let targetUrl = shortcut.url || '';
+                if (!/^https?:\/\//i.test(targetUrl)) {
+                    if (targetUrl.startsWith('/')) {
+                        targetUrl = location.origin + targetUrl;
+                    } else {
+                        targetUrl = location.origin + '/' + targetUrl;
+                    }
+                }
+
+                // Use WordPress mshots (free) which expects an encoded URL and supports width param.
+                const screenshotUrl = 'https://s.wordpress.com/mshots/v1/' + encodeURIComponent(targetUrl) + '?w=300';
+                img.src = screenshotUrl;
+
+                // If the screenshot fails to load, fallback to provided local image or tiny placeholder.
+                img.addEventListener('error', () => {
+                    if (shortcut.img) {
+                        img.src = shortcut.img;
+                    } else {
+                        img.src = 'data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==';
+                    }
+                });
+
+                // Some services return a 1x1 placeholder; detect and fallback on load.
+                img.addEventListener('load', () => {
+                    if ((img.naturalWidth === 1 && img.naturalHeight === 1) || img.naturalWidth === 0) {
+                        if (shortcut.img) img.src = shortcut.img;
+                    }
+                });
+            }
 
             const name = document.createElement('span');
             name.textContent = shortcut.name;
@@ -223,6 +353,51 @@
                 message.style.color = "red";
             });
         }
+
+        // --- Dark mode init (with variant + icon) ---
+        function initDarkMode() {
+            const toggle = document.getElementById('darkModeToggle');
+            const select = document.getElementById('darkThemeVariant');
+            const container = document.querySelector('.dark-toggle');
+            if (!toggle || !select || !container) return;
+
+            const savedEnabled = localStorage.getItem('darkMode') === 'true';
+            const savedVariant = localStorage.getItem('darkTheme') || 'soft';
+
+            // Apply saved state
+            document.body.classList.toggle('dark', savedEnabled);
+            if (savedEnabled) document.body.setAttribute('data-theme', savedVariant);
+            else document.body.removeAttribute('data-theme');
+            toggle.checked = savedEnabled;
+            select.value = savedVariant;
+            container.classList.toggle('on', toggle.checked);
+
+            // Toggle change
+            toggle.addEventListener('change', () => {
+                const enabled = toggle.checked;
+                document.body.classList.toggle('dark', enabled);
+                if (enabled) {
+                    const variant = select.value || 'soft';
+                    document.body.setAttribute('data-theme', variant);
+                } else {
+                    document.body.removeAttribute('data-theme');
+                }
+                container.classList.toggle('on', enabled);
+                localStorage.setItem('darkMode', enabled);
+            });
+
+            // Variant change
+            select.addEventListener('change', () => {
+                const variant = select.value || 'soft';
+                localStorage.setItem('darkTheme', variant);
+                if (toggle.checked) {
+                    document.body.setAttribute('data-theme', variant);
+                }
+            });
+        }
+
+        // initialize dark mode immediately
+        initDarkMode();
     </script>
 </body>
 </html>
