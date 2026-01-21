@@ -3,6 +3,6 @@
       "target": {
         "namespace": "android_app",
         "package_name": "io.github.krasyid822.clark.twa",
-        "sha256_cert_fingerprints": ["5D:FC:D7:37:EA:19:E5:3B:13:8D:E9:FF:88:42:C2:11:BC:F7:87:E5:A6:E7:15:D2:D7:D7:08:0A:34:4A:CB:C6"]
+        "sha256_cert_fingerprints": ["98:70:5C:16:82:C2:21:00:C5:23:B6:6E:FB:93:AA:9C:8C:AD:3E:EA:0E:45:AD:EE:48:CC:46:1B:F0:E5:C8:DC"]
       }
     }]
