@@ -208,18 +208,6 @@
 
     <header class="header-row">
         <h1>Website Index</h1>
-        <div class="dark-toggle" title="Toggle dark mode">
-            <label class="switch">
-                <input type="checkbox" id="darkModeToggle" aria-label="Toggle dark mode">
-                <span class="slider"></span>
-            </label>
-            <span class="toggle-icon" aria-hidden="true"></span>
-            <select id="darkThemeVariant" title="Theme variant" aria-label="Theme variant">
-                <option value="soft">Soft (default)</option>
-                <option value="dim">Dim (warmer)</option>
-                <option value="amoled">AMOLED (pure black)</option>
-            </select>
-        </div>
     </header>
 
     <div id="shortcut-container"></div>
@@ -261,6 +249,26 @@
 
         // --- Dynamic Shortcut Generation ---
         const container = document.getElementById('shortcut-container');
+
+        // Create toggle card first
+        const toggleCard = document.createElement('div');
+        toggleCard.className = 'shortcut-card toggle-card';
+        toggleCard.innerHTML = `
+            <div class="dark-toggle" title="Toggle dark mode" style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                <div style="font-weight: 600; font-size: 1rem;">Dark Mode</div>
+                <label class="switch">
+                    <input type="checkbox" id="darkModeToggle" aria-label="Toggle dark mode">
+                    <span class="slider"></span>
+                </label>
+                <span class="toggle-icon" aria-hidden="true" style="width: 24px; height: 24px;"></span>
+                <select id="darkThemeVariant" title="Theme variant" aria-label="Theme variant">
+                    <option value="soft">Soft</option>
+                    <option value="dim">Dim</option>
+                    <option value="amoled">AMOLED</option>
+                </select>
+            </div>
+        `;
+        container.appendChild(toggleCard);
 
         shortcuts.forEach(shortcut => {
             const card = document.createElement('a');
