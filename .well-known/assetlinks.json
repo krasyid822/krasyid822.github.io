@@ -1,8 +1,1 @@
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "io.github.krasyid822.clark.twa",
-        "sha256_cert_fingerprints": ["5D:FC:D7:37:EA:19:E5:3B:13:8D:E9:FF:88:42:C2:11:BC:F7:87:E5:A6:E7:15:D2:D7:D7:08:0A:34:4A:CB:C6"]
-      }
-    }]
+
