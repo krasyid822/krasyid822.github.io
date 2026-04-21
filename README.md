@@ -1,3 +1,3 @@
 # Main Page
 
-Repo yang dihususkan untuk mengindeks dan membuat github page (github.io) di repo lainnya :]
+Repo ini sekarang mengindeks konten repository GitHub Pages secara otomatis lewat GitHub API, sehingga daftar halaman akan mengikuti isi repo tanpa edit manual.

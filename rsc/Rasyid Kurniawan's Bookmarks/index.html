@@ -3,62 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repository Index</title>
-    <meta name="description" content="Indeks repository publik GitHub milik krasyid822 dengan pencarian cepat, dukungan PWA, dan tampilan mobile-friendly.">
-    <meta name="keywords" content="krasyid822, github pages, repository index, pwa, bookmarks, web app">
-    <meta name="author" content="Rasyid Kurniawan">
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="application-name" content="Repository Index">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
-    <link rel="canonical" href="https://krasyid822.github.io/">
+    <title>Rasyid Kurniawan's Bookmarks</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://api.github.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Sofadi+One&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/jpg" sizes="32x32" href="rsc/jpg/me.jpg">
-    <link rel="manifest" href="manifest.json">
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml">
-    <meta name="theme-color" content="#1d4ed8">
+    <link rel="icon" type="image/jpg" sizes="32x32" href="/rsc/jpg/me.jpg">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#007bff">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Repository Index">
-    <meta property="og:locale" content="id_ID">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Repository Index - krasyid822">
-    <meta property="og:description" content="Jelajahi repository publik krasyid822 dengan pencarian cepat dan dukungan PWA.">
-    <meta property="og:url" content="https://krasyid822.github.io/">
-    <meta property="og:site_name" content="Repository Index">
-    <meta property="og:image" content="https://krasyid822.github.io/rsc/jpg/me.jpg">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Repository Index - krasyid822">
-    <meta name="twitter:description" content="Indeks repository publik krasyid822 yang mobile-friendly dan dapat diinstal sebagai PWA.">
-    <meta name="twitter:image" content="https://krasyid822.github.io/rsc/jpg/me.jpg">
-    <link rel="apple-touch-icon" href="rsc/jpg/me.jpg">
-    <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "Repository Index",
-            "alternateName": "krasyid822 Repository Index",
-            "url": "https://krasyid822.github.io/",
-            "description": "Indeks repository publik GitHub milik krasyid822 dengan pencarian cepat dan dukungan PWA.",
-            "author": {
-                "@type": "Person",
-                "name": "Rasyid Kurniawan",
-                "url": "https://github.com/krasyid822"
-            },
-            "publisher": {
-                "@type": "Person",
-                "name": "Rasyid Kurniawan"
-            },
-            "potentialAction": {
-                "@type": "SearchAction",
-                "target": "https://krasyid822.github.io/?q={search_term_string}",
-                "query-input": "required name=search_term_string"
-            }
-        }
-    </script>
+    <meta name="apple-mobile-web-app-title" content="Bookmarks">
+    <link rel="apple-touch-icon" href="/rsc/jpg/me.jpg">
     <style>
         :root {
             --primary-font: "Montserrat", sans-serif;
@@ -66,11 +22,8 @@
             --background-color: #f0f2f5;
             --card-background: #ffffff;
             --text-color: #333333;
-            --muted-color: #64748b;
-            --border-color: rgba(15, 23, 42, 0.08);
             --shadow-color: rgba(0, 0, 0, 0.1);
             --accent-color: #007bff;
-            --accent-soft: rgba(0, 123, 255, 0.12);
         }
 
         body {
@@ -137,21 +90,6 @@
             font-size: 1rem;
         }
 
-        .empty-state {
-            width: 100%;
-            max-width: 1200px;
-            padding: 18px;
-            border-radius: 14px;
-            border: 1px dashed var(--border-color);
-            background: var(--card-background);
-            color: var(--muted-color);
-            box-sizing: border-box;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
         .footer-feature {
             background-color: var(--card-background);
             padding: 20px;
@@ -216,31 +154,22 @@
             --background-color: #0b1228; /* deep muted blue-gray */
             --card-background: #0f1a2b;
             --text-color: #d5e6f3;
-            --muted-color: #8ea6be;
-            --border-color: rgba(255,255,255,0.08);
             --shadow-color: rgba(2,6,23,0.5);
             --accent-color: #4fb3ff;
-            --accent-soft: rgba(79, 179, 255, 0.14);
         }
         body.dark[data-theme="dim"] {
             --background-color: #16120f; /* warm, very dark */
             --card-background: #221b18;  /* warm card */
             --text-color: #efe6db;      /* warm cream */
-            --muted-color: #d2b79f;
-            --border-color: rgba(255,255,255,0.08);
             --shadow-color: rgba(0,0,0,0.6);
             --accent-color: #ffb86b;    /* warm amber accent */
-            --accent-soft: rgba(255, 184, 107, 0.14);
         }
         body.dark[data-theme="amoled"] {
             --background-color: #000000; /* pure black */
             --card-background: #000000;   /* pure black cards */
             --text-color: #e6eef8;        /* light text */
-            --muted-color: #9fb0c6;
-            --border-color: rgba(255,255,255,0.08);
             --shadow-color: rgba(0,0,0,0.85);
             --accent-color: #58a6ff;
-            --accent-soft: rgba(88, 166, 255, 0.14);
         }
 
         /* Slightly adapt selector colors in dark mode */
@@ -295,25 +224,25 @@
     <script>
         // --- Shortcut Data ---
         const shortcuts = [
-            { name: "AppRepoIndex", url: "https://krasyid822.github.io/native-app-repoindex/", img: "rsc/png/apps-index.png" },
-            { name: "KalenderAkademikPolmed", url: "https://krasyid822.github.io/KalenderAkademikPolmed/", img: "rsc/png/kalender-akademik-polmed.png" },
-            { name: "katalog-harga-indomaret", url: "https://krasyid822.github.io/KatalogIndomaret/", img: "rsc/png/katalog-harga-indomaret.png" },
-            { name: "tugasAkhirDesignWeb", url: "https://krasyid822.github.io/tugasAkhirDesignWeb/", img: "rsc/png/tugas-akhir-design-web.png", forceImg: true },
-            { name: "blog-for-learning-english", url: "https://krasyid822.github.io/blog-for-learning-English/", img: "rsc/png/blog-for-learning-english.png" },
-            { name: "AlMatsurat", url: "https://krasyid822.github.io/AlMatsurat", img: "rsc/png/al-matsurat.png" },
-            { name: "ForkThenAddJadwalSholat", url: "https://krasyid822.github.io/submission-web-dicoding/", img: "rsc/png/submission-web-dicoding.png" },
-            { name: "TwitterEmbed", url: "https://krasyid822.github.io/TwitterEmbed/", img: "rsc/png/twitter-embed.png" },
-            { name: "Profile-Hover-Challenge", url: "https://krasyid822.github.io/Profile-Hover-Challenge/", img: "rsc/png/profile-hover-chalange.png" },
-            { name: "drive-public-shared", url: "https://github.com/krasyid822/Drive", img: "rsc/png/drive-public.png" },
-            { name: "basic-syntax", url: "https://www.markdownguide.org/basic-syntax/", img: "rsc/png/basic-syntax.png" },
-            { name: "page404-test", url: "page404.html", img: "rsc/png/404-page-test.png" },
-            { name: "sipadiPWA", url: "https://krasyid822.github.io/sipadiPWA/", img: "rsc/png/sipadi-pwa.png", forceImg: true },
-            { name: "paintPWA", url: "https://krasyid822.github.io/paintPWA/", img: "rsc/png/paint-pwa.png", forceImg: true },
-            { name: "canvaPWA", url: "https://krasyid822.github.io/canvaPWA/", img: "rsc/png/canva-pwa.png", forceImg: true },
-            { name: "JadwalSholatPWA", url: "https://krasyid822.github.io/sholatPWA/", img: "rsc/png/sholat-pwa.png" },
-            { name: "mscopilotPWA", url: "https://krasyid822.github.io/mscopilotPWA/", img: "rsc/jpg/copilot.jpg", forceImg: true },
-            { name: "perplexityPWA", url: "https://krasyid822.github.io/PerplexityPWA/", img: "rsc/png/perplexity-ai.png" },
-            { name: "GeminiPWA", url: "https://krasyid822.github.io/GeminiPWA/", img: "rsc/jpg/gemini-pwa.jpg" },
+            { name: "AppRepoIndex", url: "https://krasyid822.github.io/native-app-repoindex/", img: "/rsc/png/apps-index.png" },
+            { name: "KalenderAkademikPolmed", url: "https://krasyid822.github.io/KalenderAkademikPolmed/", img: "/rsc/png/kalender-akademik-polmed.png" },
+            { name: "katalog-harga-indomaret", url: "https://krasyid822.github.io/KatalogIndomaret/", img: "/rsc/png/katalog-harga-indomaret.png" },
+            { name: "tugasAkhirDesignWeb", url: "https://krasyid822.github.io/tugasAkhirDesignWeb/", img: "/rsc/png/tugas-akhir-design-web.png", forceImg: true },
+            { name: "blog-for-learning-english", url: "https://krasyid822.github.io/blog-for-learning-English/", img: "/rsc/png/blog-for-learning-english.png" },
+            { name: "AlMatsurat", url: "https://krasyid822.github.io/AlMatsurat", img: "/rsc/png/al-matsurat.png" },
+            { name: "ForkThenAddJadwalSholat", url: "https://krasyid822.github.io/submission-web-dicoding/", img: "/rsc/png/submission-web-dicoding.png" },
+            { name: "TwitterEmbed", url: "https://krasyid822.github.io/TwitterEmbed/", img: "/rsc/png/twitter-embed.png" },
+            { name: "Profile-Hover-Challenge", url: "https://krasyid822.github.io/Profile-Hover-Challenge/", img: "/rsc/png/profile-hover-chalange.png" },
+            { name: "drive-public-shared", url: "https://github.com/krasyid822/Drive", img: "/rsc/png/drive-public.png" },
+            { name: "basic-syntax", url: "https://www.markdownguide.org/basic-syntax/", img: "/rsc/png/basic-syntax.png" },
+            { name: "page404-test", url: "/page404.html", img: "/rsc/png/404-page-test.png" },
+            { name: "sipadiPWA", url: "https://krasyid822.github.io/sipadiPWA/", img: "/rsc/png/sipadi-pwa.png", forceImg: true },
+            { name: "paintPWA", url: "https://krasyid822.github.io/paintPWA/", img: "/rsc/png/paint-pwa.png", forceImg: true },
+            { name: "canvaPWA", url: "https://krasyid822.github.io/canvaPWA/", img: "/rsc/png/canva-pwa.png", forceImg: true },
+            { name: "JadwalSholatPWA", url: "https://krasyid822.github.io/sholatPWA/", img: "/rsc/png/sholat-pwa.png" },
+            { name: "mscopilotPWA", url: "https://krasyid822.github.io/mscopilotPWA/", img: "/rsc/jpg/copilot.jpg", forceImg: true },
+            { name: "perplexityPWA", url: "https://krasyid822.github.io/PerplexityPWA/", img: "/rsc/png/perplexity-ai.png" },
+            { name: "GeminiPWA", url: "https://krasyid822.github.io/GeminiPWA/", img: "/rsc/jpg/gemini-pwa.jpg" },
             { name: "Web Index PHP", url: "https://rasyid.rf.gd/"},
             { name: "QR Code Maker", url: "https://krasyid822.github.io/qr-code-maker/" }
         ];
@@ -478,6 +407,5 @@
         // initialize dark mode immediately
         initDarkMode();
     </script>
-    <script src="rsc/js/repo-index.js"></script>
 </body>
 </html>

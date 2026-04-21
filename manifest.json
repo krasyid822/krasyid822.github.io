@@ -1,11 +1,68 @@
 {
-  "name": "Rasyid Kurniawan's Bookmarks",
-  "short_name": "Bookmarks",
-  "description": "A collection of useful bookmarks and links",
+  "id": "/",
+  "name": "Repository Index",
+  "short_name": "Index",
+  "description": "Automatic index for the GitHub Pages repository contents",
+  "lang": "id-ID",
+  "dir": "ltr",
   "start_url": "/",
+  "scope": "/",
+  "display_override": [
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#f0f2f5",
-  "theme_color": "#007bff",
+  "theme_color": "#1d4ed8",
+  "categories": [
+    "productivity",
+    "utilities",
+    "developer"
+  ],
+  "shortcuts": [
+    {
+      "name": "Repository Index",
+      "short_name": "Index",
+      "description": "Buka halaman utama indeks repository",
+      "url": "/",
+      "icons": [
+        {
+          "src": "rsc/jpg/me.jpg",
+          "sizes": "192x192",
+          "type": "image/jpg"
+        }
+      ]
+    },
+    {
+      "name": "Rasyid Kurniawan's Bookmarks",
+      "short_name": "Bookmarks",
+      "description": "Buka halaman bookmark lama",
+      "url": "/rsc/Rasyid%20Kurniawan%27s%20Bookmarks/index.html",
+      "icons": [
+        {
+          "src": "rsc/jpg/me.jpg",
+          "sizes": "192x192",
+          "type": "image/jpg"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "rsc/png/apps-index.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "rsc/png/drive-public.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
   "icons": [
     {
       "src": "rsc/jpg/me.jpg",

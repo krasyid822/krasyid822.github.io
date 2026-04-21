@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://krasyid822.github.io/sitemap.xml

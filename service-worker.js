@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-site-cache-v4';
+const CACHE_NAME = 'my-site-cache-v5';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -6,18 +6,14 @@ const urlsToCache = [
   '/manifest.json',
   '/robots.txt',
   '/sitemap.xml',
-  '/rsc/js/service-worker.js',
-  '/rsc/js/repo-index.js'
+  '/rsc/js/repo-index.js',
+  '/rsc/jpg/me.jpg'
 ];
 
 self.addEventListener('install', event => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
   );
 });
 
@@ -29,9 +25,9 @@ self.addEventListener('activate', event => {
         return Promise.all(
           cacheNames.map(cacheName => {
             if (cacheName !== CACHE_NAME) {
-              console.log('Deleting old cache:', cacheName);
               return caches.delete(cacheName);
             }
+            return undefined;
           })
         );
       })
@@ -58,27 +54,20 @@ self.addEventListener('fetch', event => {
   }
 
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        if (response) {
-          return response;
+    caches.match(event.request).then(response => {
+      if (response) {
+        return response;
+      }
+
+      return fetch(event.request).then(networkResponse => {
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+          return networkResponse;
         }
-        return fetch(event.request).then(response => {
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, responseToCache);
-            });
-          return response;
-        }).catch(() => {
-          // Return offline page if fetch fails and it's a navigation request
-          if (event.request.mode === 'navigate') {
-            return caches.match('/page404.html');
-          }
-        });
-      })
+
+        const responseToCache = networkResponse.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache));
+        return networkResponse;
+      });
+    })
   );
 });
