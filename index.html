@@ -273,9 +273,65 @@
             font-size: 0.9rem;
             color: green;
         }
+
+        noscript {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #111827;
+            color: #ffffff;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Montserrat", sans-serif;
+        }
+        .noscript-container {
+            text-align: center;
+            padding: 24px;
+            max-width: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            box-sizing: border-box;
+        }
+        .noscript-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+        }
+        .noscript-container p {
+            font-size: 1.25rem;
+            font-weight: 600;
+            line-height: 1.6;
+            color: #f3f4f6;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+        .noscript-btn {
+            color: #9ca3af;
+            text-decoration: underline;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            transition: color 0.2s;
+        }
+        .noscript-btn:hover {
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
+    <noscript>
+        <div class="noscript-container">
+            <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdzgwY2Jnc2FybTllOHhzMHllZXV6c29iYzRkYnYxNmZ6bHhpZzhheiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/tXL4FHPSnVJ0A/giphy.gif" alt="Rebahan">
+            <p>Mesin JavaScript mati, ya gimana rebahan lah guweh</p>
+            <a href="https://www.google.com/search?q=cara+mengaktifkan+javascript+di+browser" target="_blank" rel="noopener noreferrer" class="noscript-btn">Cara Aktifkan JavaScript ↗</a>
+        </div>
+    </noscript>
 
     <header class="header-row">
         <h1>Website Index</h1>

@@ -206,10 +206,172 @@
                 font-size: 1.4rem;
             }
         }
+
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            overflow-x: auto;
+            padding: 4px 0 10px 0;
+            scrollbar-width: none;
+            margin-top: 6px;
+        }
+        .category-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        .tab-btn {
+            padding: 10px 18px;
+            border: 1px solid var(--border-color);
+            background: var(--card-background);
+            color: var(--text-color);
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+            box-shadow: 0 4px 10px var(--shadow-color);
+        }
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-color);
+            background: var(--accent-soft);
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 4px 14px rgba(29, 78, 216, 0.3);
+        }
+
+        .repo-title-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            margin-bottom: 8px;
+        }
+        .repo-title-scroll {
+            display: inline-flex;
+            gap: 24px;
+            width: max-content;
+        }
+        .repo-title-scroll.animate {
+            animation: marquee-scroll 10s linear infinite;
+        }
+        .repo-title-scroll span {
+            font-size: 1.02rem;
+            font-weight: 600;
+        }
+
+        @keyframes marquee-scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-50% - 12px));
+            }
+        }
+
+        /* Mobile menu & drawer styles */
+        .mobile-drawer {
+            display: contents;
+        }
+        .mobile-menu-btn {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header-row {
+                justify-content: space-between !important;
+                padding: 0 16px;
+                box-sizing: border-box;
+            }
+
+            .mobile-menu-btn {
+                display: flex !important;
+                align-items: center;
+                justify-content: center;
+                background: var(--card-background);
+                border: 1px solid var(--border-color);
+                color: var(--text-color);
+                border-radius: 50%;
+                width: 42px;
+                height: 42px;
+                cursor: pointer;
+                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 4px 10px var(--shadow-color);
+                padding: 0;
+            }
+            .mobile-menu-btn:hover {
+                transform: scale(1.05);
+                background: var(--accent-soft);
+                border-color: var(--accent-color);
+            }
+
+            .mobile-drawer-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.4);
+                backdrop-filter: blur(6px);
+                z-index: 999;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+            body.menu-open .mobile-drawer-overlay {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .mobile-drawer {
+                display: block;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: var(--card-background);
+                border-radius: 24px 24px 0 0;
+                z-index: 1000;
+                padding: 24px;
+                max-height: 80vh;
+                overflow-y: auto;
+                transform: translateY(100%);
+                transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.25);
+                box-sizing: border-box;
+            }
+            body.menu-open .mobile-drawer {
+                transform: translateY(0);
+            }
+
+            /* Intro text styling inside drawer */
+            .repo-intro-text {
+                margin: 0 0 16px 0 !important;
+                text-align: left !important;
+                font-size: 0.88rem;
+                opacity: 0.85;
+                padding-bottom: 16px;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            /* Overrides to make controls look premium in drawer */
+            .repo-controls {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                background: transparent !important;
+                backdrop-filter: none !important;
+                margin-bottom: 0 !important;
+            }
+        }
     `;
     document.head.appendChild(styleElement);
 
     const intro = document.createElement('p');
+    intro.className = 'repo-intro-text';
     intro.textContent = `Menampilkan repository publik milik ${repoOwner}. Gunakan pencarian untuk memfilter repo berdasarkan nama, deskripsi, bahasa, atau topic.`;
     intro.style.maxWidth = '1200px';
     intro.style.margin = '0 auto 18px';
@@ -217,9 +379,6 @@
     intro.style.lineHeight = '1.6';
     intro.style.color = 'var(--text-color)';
     intro.style.opacity = '0.85';
-    if (title && title.parentElement) {
-        title.parentElement.insertAdjacentElement('afterend', intro);
-    }
 
     const controls = document.createElement('section');
     controls.className = 'repo-controls';
@@ -309,9 +468,75 @@
     searchRow.appendChild(clearButton);
     controls.appendChild(darkModeCard);
     controls.appendChild(searchRow);
+
+    // Dynamic category tabs
+    let activeCategory = 'all';
+    const tabsContainer = document.createElement('div');
+    tabsContainer.className = 'category-tabs';
+
+    const categories = [
+        { id: 'all', label: 'Semua' },
+        { id: 'own', label: 'Repository Publik' },
+        { id: 'fork', label: 'Repository Fork' },
+        { id: 'bookmarks', label: 'Pintasan & Bookmark' }
+    ];
+
+    const tabButtons = {};
+
+    categories.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `tab-btn${cat.id === 'all' ? ' active' : ''}`;
+        btn.textContent = cat.label;
+        btn.setAttribute('data-category', cat.id);
+        btn.addEventListener('click', () => {
+            Object.values(tabButtons).forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeCategory = cat.id;
+            renderRepos();
+        });
+        tabButtons[cat.id] = btn;
+        tabsContainer.appendChild(btn);
+    });
+    controls.appendChild(tabsContainer);
+
     controls.appendChild(metrics);
     controls.appendChild(status);
-    container.insertAdjacentElement('beforebegin', controls);
+
+    // Create the mobile drawer wrapper
+    const drawer = document.createElement('div');
+    drawer.className = 'mobile-drawer';
+    drawer.appendChild(intro);
+    drawer.appendChild(controls);
+    
+    // Mount the drawer to the DOM
+    container.insertAdjacentElement('beforebegin', drawer);
+
+    // Mount mobile menu button to header
+    const header = document.querySelector('.header-row');
+    if (header) {
+        const menuBtn = document.createElement('button');
+        menuBtn.className = 'mobile-menu-btn';
+        menuBtn.setAttribute('aria-label', 'Toggle menu');
+        menuBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path fill="currentColor" d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
+        `;
+        header.appendChild(menuBtn);
+
+        const overlay = document.createElement('div');
+        overlay.className = 'mobile-drawer-overlay';
+        document.body.appendChild(overlay);
+
+        menuBtn.addEventListener('click', () => {
+            document.body.classList.toggle('menu-open');
+        });
+
+        overlay.addEventListener('click', () => {
+            document.body.classList.remove('menu-open');
+        });
+    }
 
     const emptyState = document.createElement('div');
     emptyState.className = 'empty-state hidden';
@@ -619,28 +844,81 @@
         return haystack.includes(query);
     }
 
-    function filteredRepos() {
-        const query = searchInput.value.trim().toLowerCase();
-        return allRepos.filter(repo => matchesQuery(repo, query));
+    function matchesBookmarkQuery(bookmark, query) {
+        if (!query) return true;
+        const haystack = [
+            bookmark.name,
+            bookmark.url
+        ]
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase();
+        return haystack.includes(query);
     }
 
-    function updateMetrics(total, visible, pages) {
+    function updateMetrics(total, visible, pages, labels = {}) {
         metricTotal.metricValue.textContent = String(total);
         metricVisible.metricValue.textContent = String(visible);
         metricPages.metricValue.textContent = String(pages);
+
+        if (labels.total) {
+            metricTotal.card.querySelector('.repo-metric-label').textContent = labels.total;
+        }
+        if (labels.visible) {
+            metricVisible.card.querySelector('.repo-metric-label').textContent = labels.visible;
+        }
+        if (labels.pages) {
+            metricPages.card.querySelector('.repo-metric-label').textContent = labels.pages;
+        }
     }
 
     function buildPageBadge(repo) {
         const badge = document.createElement('span');
         badge.className = 'shortcut-badge';
-        badge.textContent = repo.has_pages ? 'GitHub Pages' : 'GitHub Repo';
+        if (repo.has_pages) {
+            badge.textContent = 'GitHub Pages';
+        } else if (repo.homepage && repo.homepage.trim()) {
+            badge.textContent = 'Website';
+        } else {
+            badge.textContent = 'GitHub Repo';
+        }
         return badge;
     }
 
-    function buildRepoCard(repo, index) {
+    function buildTitleElement(text) {
+        const container = document.createElement('div');
+        container.className = 'repo-title-container';
+
+        const needsMarquee = text.includes('_') && text.length > 12 || text.length > 18;
+
+        if (needsMarquee) {
+            const scrollContainer = document.createElement('div');
+            scrollContainer.className = 'repo-title-scroll animate';
+
+            const firstSpan = document.createElement('span');
+            firstSpan.textContent = text;
+
+            const secondSpan = document.createElement('span');
+            secondSpan.textContent = text;
+
+            scrollContainer.appendChild(firstSpan);
+            scrollContainer.appendChild(secondSpan);
+            container.appendChild(scrollContainer);
+        } else {
+            const span = document.createElement('span');
+            span.textContent = text;
+            span.style.fontSize = '1.02rem';
+            span.style.fontWeight = '600';
+            container.appendChild(span);
+        }
+
+        return container;
+    }
+
+    function buildBookmarkCard(shortcut, index) {
         const card = document.createElement('a');
         card.className = 'shortcut-card';
-        card.href = repoUrl(repo);
+        card.href = shortcut.url;
         card.target = '_blank';
         card.rel = 'noopener noreferrer';
         card.style.textAlign = 'left';
@@ -649,16 +927,97 @@
         card.style.animationDelay = `${Math.min(index * 40, 380)}ms`;
 
         const img = document.createElement('img');
+        img.alt = shortcut.name;
+        img.style.objectFit = 'cover';
+
+        if (shortcut.forceImg && shortcut.img) {
+            img.src = shortcut.img;
+        } else {
+            let targetUrl = shortcut.url || '';
+            if (!/^https?:\/\//i.test(targetUrl)) {
+                if (targetUrl.startsWith('/')) {
+                    targetUrl = location.origin + targetUrl;
+                } else {
+                    targetUrl = location.origin + '/' + targetUrl;
+                }
+            }
+
+            const screenshotUrl = 'https://s.wordpress.com/mshots/v1/' + encodeURIComponent(targetUrl) + '?w=400';
+            img.src = screenshotUrl;
+
+            img.addEventListener('error', () => {
+                if (shortcut.img) {
+                    img.src = shortcut.img;
+                } else {
+                    img.src = 'data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==';
+                }
+            }, { once: true });
+
+            img.addEventListener('load', () => {
+                if ((img.naturalWidth === 1 && img.naturalHeight === 1) || img.naturalWidth === 0) {
+                    if (shortcut.img) img.src = shortcut.img;
+                }
+            }, { once: true });
+        }
+
+        const name = buildTitleElement(shortcut.name);
+
+        const description = document.createElement('small');
+        description.textContent = 'Aplikasi / Pintasan eksternal favorit.';
+        description.style.minHeight = '3em';
+
+        const meta = document.createElement('small');
+        let domain = '';
+        try {
+            domain = new URL(shortcut.url).hostname;
+        } catch (_) {
+            domain = 'Lokal';
+        }
+        meta.textContent = [domain, 'Pintasan'].join(' · ');
+        meta.style.display = 'block';
+        meta.style.marginTop = '10px';
+        meta.style.fontSize = '0.82rem';
+        meta.style.opacity = '0.78';
+
+        const badge = document.createElement('span');
+        badge.className = 'shortcut-badge';
+        badge.textContent = 'Bookmark';
+        badge.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        badge.style.color = '#ffffff';
+        badge.style.borderColor = 'transparent';
+
+        card.appendChild(img);
+        card.appendChild(name);
+        card.appendChild(description);
+        card.appendChild(meta);
+        card.appendChild(badge);
+
+        return card;
+    }
+
+    function buildRepoCard(repo, index) {
+        const card = document.createElement('div');
+        card.className = 'shortcut-card';
+        card.style.cursor = 'pointer';
+        card.style.textAlign = 'left';
+        card.style.alignItems = 'flex-start';
+        card.style.gap = '0';
+        card.style.animationDelay = `${Math.min(index * 40, 380)}ms`;
+
+        card.addEventListener('click', (e) => {
+            if (!e.target.closest('a')) {
+                window.open(repoUrl(repo), '_blank', 'noopener,noreferrer');
+            }
+        });
+
+        const img = document.createElement('img');
         const fallbackIcon = createIcon(repo);
         img.src = fallbackIcon;
         img.alt = repo.name;
         img.style.objectFit = 'cover';
         applyThumbnail(img, repo, fallbackIcon);
 
-        const name = document.createElement('span');
-        name.textContent = repo.name;
-        name.style.fontSize = '1.02rem';
-        name.style.marginBottom = '8px';
+        const name = buildTitleElement(repo.name);
 
         const description = document.createElement('small');
         description.textContent = repo.description || 'Tidak ada deskripsi.';
@@ -700,30 +1059,118 @@
         }
         card.appendChild(badge);
 
+        if (repoUrl(repo) !== repo.html_url) {
+            const sourceLink = document.createElement('a');
+            sourceLink.href = repo.html_url;
+            sourceLink.target = '_blank';
+            sourceLink.rel = 'noopener noreferrer';
+            sourceLink.textContent = 'Buka GitHub Repo ↗';
+            sourceLink.style.display = 'inline-block';
+            sourceLink.style.marginTop = '12px';
+            sourceLink.style.fontSize = '0.78rem';
+            sourceLink.style.color = 'var(--accent-color)';
+            sourceLink.style.fontWeight = '700';
+            sourceLink.style.textDecoration = 'none';
+            
+            sourceLink.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+            sourceLink.addEventListener('mouseenter', () => {
+                sourceLink.style.textDecoration = 'underline';
+            });
+            sourceLink.addEventListener('mouseleave', () => {
+                sourceLink.style.textDecoration = 'none';
+            });
+            
+            card.appendChild(sourceLink);
+        }
+
         return card;
     }
 
-    function renderRepos(list) {
+    function renderRepos() {
         container.innerHTML = '';
+        const query = searchInput.value.trim().toLowerCase();
+        
+        let filteredList = [];
+        const localShortcuts = (typeof shortcuts !== 'undefined' ? shortcuts : []);
 
-        if (!list.length) {
+        if (activeCategory === 'all' || activeCategory === 'own') {
+            const ownRepos = allRepos.filter(repo => !repo.fork);
+            filteredList.push(...ownRepos.filter(repo => matchesQuery(repo, query)).map(item => ({ type: 'repo', data: item })));
+        }
+
+        if (activeCategory === 'all' || activeCategory === 'fork') {
+            const forkRepos = allRepos.filter(repo => repo.fork);
+            filteredList.push(...forkRepos.filter(repo => matchesQuery(repo, query)).map(item => ({ type: 'repo', data: item })));
+        }
+
+        if (activeCategory === 'all' || activeCategory === 'bookmarks') {
+            filteredList.push(...localShortcuts.filter(bm => matchesBookmarkQuery(bm, query)).map(item => ({ type: 'bookmark', data: item })));
+        }
+
+        if (!filteredList.length) {
             emptyState.classList.remove('hidden');
             emptyState.textContent = searchInput.value.trim()
-                ? 'Tidak ada repository yang cocok dengan pencarian.'
-                : 'Tidak ada repository yang dapat ditampilkan.';
-            updateMetrics(allRepos.length, 0, allRepos.filter(repo => repo.has_pages).length);
+                ? 'Tidak ada item yang cocok dengan pencarian.'
+                : 'Tidak ada item yang dapat ditampilkan.';
+            updateMetrics(
+                allRepos.length + localShortcuts.length,
+                0,
+                allRepos.filter(repo => repo.has_pages).length,
+                { total: 'Total item', visible: 'Ditampilkan', pages: 'Repo Pages' }
+            );
             return;
         }
 
         emptyState.classList.add('hidden');
 
         const fragment = document.createDocumentFragment();
-        list.forEach((repo, index) => {
-            fragment.appendChild(buildRepoCard(repo, index));
+        filteredList.forEach((item, index) => {
+            if (item.type === 'repo') {
+                fragment.appendChild(buildRepoCard(item.data, index));
+            } else {
+                fragment.appendChild(buildBookmarkCard(item.data, index));
+            }
         });
 
         container.appendChild(fragment);
-        updateMetrics(allRepos.length, list.length, allRepos.filter(repo => repo.has_pages).length);
+
+        // Update metrics based on active category
+        const totalItems = allRepos.length + localShortcuts.length;
+        const ownCount = allRepos.filter(repo => !repo.fork).length;
+        const forkCount = allRepos.filter(repo => repo.fork).length;
+        const bookmarkCount = localShortcuts.length;
+
+        if (activeCategory === 'all') {
+            updateMetrics(
+                totalItems,
+                filteredList.length,
+                allRepos.filter(repo => repo.has_pages).length + localShortcuts.filter(s => s.url.includes('github.io')).length,
+                { total: 'Total item', visible: 'Ditampilkan', pages: 'Pages & Pintasan' }
+            );
+        } else if (activeCategory === 'own') {
+            updateMetrics(
+                ownCount,
+                filteredList.length,
+                allRepos.filter(repo => !repo.fork && repo.has_pages).length,
+                { total: 'Total repo', visible: 'Ditampilkan', pages: 'Repo Pages' }
+            );
+        } else if (activeCategory === 'fork') {
+            updateMetrics(
+                forkCount,
+                filteredList.length,
+                allRepos.filter(repo => repo.fork && repo.has_pages).length,
+                { total: 'Total fork', visible: 'Ditampilkan', pages: 'Fork Pages' }
+            );
+        } else if (activeCategory === 'bookmarks') {
+            updateMetrics(
+                bookmarkCount,
+                filteredList.length,
+                bookmarkCount,
+                { total: 'Total pintasan', visible: 'Ditampilkan', pages: 'Tautan Pintasan' }
+            );
+        }
     }
 
     async function requestJson(url) {
@@ -841,7 +1288,7 @@
             statusDot.style.background = '#22c55e';
             statusDot.style.boxShadow = '0 0 0 6px rgba(34, 197, 94, 0.16)';
             statusText.textContent = `Repository dimuat: ${allRepos.length} item`;
-            renderRepos(filteredRepos());
+            renderRepos();
         } catch (error) {
             console.error(error);
             const cachedRepos = loadRepoCache();
@@ -858,18 +1305,18 @@
                 emptyState.textContent = 'Gagal memuat repository dari GitHub API. Coba refresh lagi.';
             }
 
-            renderRepos(filteredRepos());
+            renderRepos();
         }
     }
 
     searchInput.addEventListener('input', () => {
-        renderRepos(filteredRepos());
+        renderRepos();
     });
 
     clearButton.addEventListener('click', () => {
         searchInput.value = '';
         searchInput.focus();
-        renderRepos(filteredRepos());
+        renderRepos();
     });
 
     initDarkMode();
