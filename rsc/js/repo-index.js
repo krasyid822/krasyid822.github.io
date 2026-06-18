@@ -250,6 +250,13 @@
             white-space: nowrap;
             margin-bottom: 8px;
         }
+
+        .shortcut-card small {
+            width: 100%;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
         .repo-title-scroll {
             display: inline-flex;
             gap: 24px;
