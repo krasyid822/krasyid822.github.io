@@ -2,17 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://krasyid822.github.io/</loc>
+    <lastmod>2026-06-21</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://krasyid822.github.io/page404.html</loc>
-    <changefreq>yearly</changefreq>
-    <priority>0.1</priority>
-  </url>
-  <url>
-    <loc>https://krasyid822.github.io/rsc/Rasyid%20Kurniawan%27s%20Bookmarks/index.html</loc>
+    <loc>https://portofolio.rasyidkurniawan.my.id/</loc>
+    <lastmod>2026-06-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://krasyid822.github.io/page404.html</loc>
+    <lastmod>2026-06-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.1</priority>
   </url>
 </urlset>

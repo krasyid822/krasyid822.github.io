@@ -1,4 +1,4 @@
-const CACHE_NAME = 'my-site-cache-v5';
+const CACHE_NAME = 'my-site-cache-v6';
 const urlsToCache = [
   '/',
   '/index.html',
@@ -36,7 +36,7 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') {
+  if (event.request.method !== 'GET' || !event.request.url.startsWith('http')) {
     return;
   }
 

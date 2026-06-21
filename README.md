@@ -5,3 +5,6 @@ Repo ini sekarang mengindeks konten repository GitHub Pages secara otomatis lewa
 ```pwsh
 npx serve .
 ```
+
+## Catatan
+- tambahkan tema bluemoon, gold, emerland untuk mode terang

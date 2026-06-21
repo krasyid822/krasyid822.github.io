@@ -200,6 +200,11 @@
         /* Toggle icon */
         .toggle-icon {
             width: 20px; height: 20px; display: inline-block; margin-left: 8px; background-size: contain; background-repeat: no-repeat; background-position: center;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .toggle-icon:hover {
+            transform: scale(1.2);
         }
 
         /* Container state to switch icon via JS */
@@ -212,11 +217,37 @@
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FDBA74"><path d="M6.76 4.84l-1.8-1.79L3.17 4.84l1.79 1.79 1.8-1.79zM1 13h3v-2H1v2zm10 9h2v-3h-2v3zM17.24 19.16l1.8 1.79 1.79-1.79-1.79-1.79-1.8 1.79zM20 11v2h3v-2h-3zM12 5a7 7 0 100 14 7 7 0 000-14zM4.22 17.66l1.79-1.79-1.79-1.8-1.79 1.8 1.79 1.79zM17.66 6.34l1.79-1.79L17.66 2.76l-1.79 1.79 1.79 1.79z"/></svg>');
         }
 
-        /* Variant selector styling */
-        #darkThemeVariant { margin-left: 10px; padding: 4px 8px; border-radius: 6px; border: 1px solid #ccc; background: white; color: #222; }
-
-        /* Hide variant selector when dark mode is off */
-        .dark-toggle:not(.on) #darkThemeVariant { display: none; }
+        /* Light theme overrides */
+        body:not(.dark)[data-theme="bluemoon"] {
+            --background-color: #f0f4ff;
+            --card-background: #ffffff;
+            --text-color: #1e293b;
+            --muted-color: #64748b;
+            --border-color: rgba(30, 41, 59, 0.08);
+            --shadow-color: rgba(29, 78, 216, 0.06);
+            --accent-color: #1d4ed8;
+            --accent-soft: rgba(29, 78, 216, 0.1);
+        }
+        body:not(.dark)[data-theme="gold"] {
+            --background-color: #fdfbf7;
+            --card-background: #ffffff;
+            --text-color: #451a03;
+            --muted-color: #78350f;
+            --border-color: rgba(120, 53, 15, 0.08);
+            --shadow-color: rgba(217, 119, 6, 0.06);
+            --accent-color: #d97706;
+            --accent-soft: rgba(217, 119, 6, 0.1);
+        }
+        body:not(.dark)[data-theme="emerald"] {
+            --background-color: #f0fdf4;
+            --card-background: #ffffff;
+            --text-color: #064e3b;
+            --muted-color: #0f766e;
+            --border-color: rgba(15, 118, 110, 0.08);
+            --shadow-color: rgba(4, 120, 87, 0.06);
+            --accent-color: #047857;
+            --accent-soft: rgba(4, 120, 87, 0.1);
+        }
 
         /* Dark theme overrides — base for dark, then per-variant overrides via data-theme */
         body.dark[data-theme="soft"] {
@@ -249,9 +280,6 @@
             --accent-color: #58a6ff;
             --accent-soft: rgba(88, 166, 255, 0.14);
         }
-
-        /* Slightly adapt selector colors in dark mode */
-        body.dark #darkThemeVariant { background: #0b1228; color: var(--text-color); border-color: rgba(255,255,255,0.06); }
 
         #textToCopy {
             width: calc(100% - 120px);
@@ -356,30 +384,6 @@
     </div> -->
 
     <script>
-        // --- Shortcut Data ---
-        const shortcuts = [
-            { name: "AppRepoIndex", url: "https://krasyid822.github.io/native-app-repoindex/", img: "rsc/png/apps-index.png" },
-            { name: "KalenderAkademikPolmed", url: "https://krasyid822.github.io/KalenderAkademikPolmed/", img: "rsc/png/kalender-akademik-polmed.png" },
-            { name: "katalog-harga-indomaret", url: "https://krasyid822.github.io/KatalogIndomaret/", img: "rsc/png/katalog-harga-indomaret.png" },
-            { name: "tugasAkhirDesignWeb", url: "https://krasyid822.github.io/tugasAkhirDesignWeb/", img: "rsc/png/tugas-akhir-design-web.png", forceImg: true },
-            { name: "blog-for-learning-english", url: "https://krasyid822.github.io/blog-for-learning-English/", img: "rsc/png/blog-for-learning-english.png" },
-            { name: "AlMatsurat", url: "https://krasyid822.github.io/AlMatsurat", img: "rsc/png/al-matsurat.png" },
-            { name: "ForkThenAddJadwalSholat", url: "https://krasyid822.github.io/submission-web-dicoding/", img: "rsc/png/submission-web-dicoding.png" },
-            { name: "TwitterEmbed", url: "https://krasyid822.github.io/TwitterEmbed/", img: "rsc/png/twitter-embed.png" },
-            { name: "Profile-Hover-Challenge", url: "https://krasyid822.github.io/Profile-Hover-Challenge/", img: "rsc/png/profile-hover-chalange.png" },
-            { name: "drive-public-shared", url: "https://github.com/krasyid822/Drive", img: "rsc/png/drive-public.png" },
-            { name: "basic-syntax", url: "https://www.markdownguide.org/basic-syntax/", img: "rsc/png/basic-syntax.png" },
-            { name: "page404-test", url: "page404.html", img: "rsc/png/404-page-test.png" },
-            { name: "sipadiPWA", url: "https://krasyid822.github.io/sipadiPWA/", img: "rsc/png/sipadi-pwa.png", forceImg: true },
-            { name: "paintPWA", url: "https://krasyid822.github.io/paintPWA/", img: "rsc/png/paint-pwa.png", forceImg: true },
-            { name: "canvaPWA", url: "https://krasyid822.github.io/canvaPWA/", img: "rsc/png/canva-pwa.png", forceImg: true },
-            { name: "JadwalSholatPWA", url: "https://krasyid822.github.io/sholatPWA/", img: "rsc/png/sholat-pwa.png" },
-            { name: "mscopilotPWA", url: "https://krasyid822.github.io/mscopilotPWA/", img: "rsc/jpg/copilot.jpg", forceImg: true },
-            { name: "perplexityPWA", url: "https://krasyid822.github.io/PerplexityPWA/", img: "rsc/png/perplexity-ai.png" },
-            { name: "GeminiPWA", url: "https://krasyid822.github.io/GeminiPWA/", img: "rsc/jpg/gemini-pwa.jpg" },
-            { name: "Web Index PHP", url: "https://rasyid.rf.gd/"},
-            { name: "QR Code Maker", url: "https://krasyid822.github.io/qr-code-maker/" }
-        ];
 
         // --- Dynamic Shortcut Generation ---
         const container = document.getElementById('shortcut-container');
@@ -389,74 +393,15 @@
         toggleCard.className = 'shortcut-card toggle-card';
         toggleCard.innerHTML = `
             <div class="dark-toggle" title="Toggle dark mode" style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px;">
-                <div style="font-weight: 600; font-size: 1rem;">Dark Mode</div>
+                <div id="darkModeTitle" style="font-weight: 600; font-size: 1rem;">Dark Mode</div>
                 <label class="switch">
                     <input type="checkbox" id="darkModeToggle" aria-label="Toggle dark mode">
                     <span class="slider"></span>
                 </label>
                 <span class="toggle-icon" aria-hidden="true" style="width: 24px; height: 24px;"></span>
-                <select id="darkThemeVariant" title="Theme variant" aria-label="Theme variant">
-                    <option value="soft">Soft</option>
-                    <option value="dim">Dim</option>
-                    <option value="amoled">AMOLED</option>
-                </select>
             </div>
         `;
         container.appendChild(toggleCard);
-
-        shortcuts.forEach(shortcut => {
-            const card = document.createElement('a');
-            card.href = shortcut.url;
-            card.className = 'shortcut-card';
-            card.target = "_blank"; // Open in new tab
-            card.rel = "noopener noreferrer";
-
-            const img = document.createElement('img');
-            img.alt = shortcut.name;
-
-            // If `forceImg` is set on the shortcut and an `img` is provided,
-            // use the provided image and skip the screenshot service.
-            if (shortcut.forceImg && shortcut.img) {
-                img.src = shortcut.img;
-            } else {
-                // Build absolute target URL: use as-is when full URL, otherwise prepend origin.
-                let targetUrl = shortcut.url || '';
-                if (!/^https?:\/\//i.test(targetUrl)) {
-                    if (targetUrl.startsWith('/')) {
-                        targetUrl = location.origin + targetUrl;
-                    } else {
-                        targetUrl = location.origin + '/' + targetUrl;
-                    }
-                }
-
-                // Use WordPress mshots (free) which expects an encoded URL and supports width param.
-                const screenshotUrl = 'https://s.wordpress.com/mshots/v1/' + encodeURIComponent(targetUrl) + '?w=300';
-                img.src = screenshotUrl;
-
-                // If the screenshot fails to load, fallback to provided local image or tiny placeholder.
-                img.addEventListener('error', () => {
-                    if (shortcut.img) {
-                        img.src = shortcut.img;
-                    } else {
-                        img.src = 'data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==';
-                    }
-                });
-
-                // Some services return a 1x1 placeholder; detect and fallback on load.
-                img.addEventListener('load', () => {
-                    if ((img.naturalWidth === 1 && img.naturalHeight === 1) || img.naturalWidth === 0) {
-                        if (shortcut.img) img.src = shortcut.img;
-                    }
-                });
-            }
-
-            const name = document.createElement('span');
-            name.textContent = shortcut.name;
-
-            card.appendChild(img);
-            card.appendChild(name);
-            container.appendChild(card);
-        });
 
         // --- Service Worker Registration ---
         if ('serviceWorker' in navigator) {
@@ -499,41 +444,76 @@
         // --- Dark mode init (with variant + icon) ---
         function initDarkMode() {
             const toggle = document.getElementById('darkModeToggle');
-            const select = document.getElementById('darkThemeVariant');
+            const icon = document.querySelector('.toggle-icon');
             const container = document.querySelector('.dark-toggle');
-            if (!toggle || !select || !container) return;
+            const title = document.getElementById('darkModeTitle');
+            if (!toggle || !icon || !container || !title) return;
 
             const savedEnabled = localStorage.getItem('darkMode') === 'true';
-            const savedVariant = localStorage.getItem('darkTheme') || 'soft';
+            const savedDarkVariant = localStorage.getItem('darkTheme') || 'soft';
+            const savedLightVariant = localStorage.getItem('lightTheme') || 'default';
+
+            function updateUI(enabled, darkVariant, lightVariant) {
+                document.body.classList.toggle('dark', enabled);
+                container.classList.toggle('on', enabled);
+                toggle.checked = enabled;
+                
+                if (enabled) {
+                    document.body.setAttribute('data-theme', darkVariant);
+                    const variantLabel = darkVariant.charAt(0).toUpperCase() + darkVariant.slice(1);
+                    title.textContent = `Dark Mode (${variantLabel})`;
+                    icon.title = `Klik untuk ganti tema (aktif: ${variantLabel})`;
+                } else {
+                    if (lightVariant === 'default') {
+                        document.body.removeAttribute('data-theme');
+                        title.textContent = 'Light Mode (Default)';
+                    } else {
+                        document.body.setAttribute('data-theme', lightVariant);
+                        const variantLabel = lightVariant === 'bluemoon' ? 'Blue Moon' : lightVariant.charAt(0).toUpperCase() + lightVariant.slice(1);
+                        title.textContent = `Light Mode (${variantLabel})`;
+                    }
+                    const nextLight = getNextLightVariant(lightVariant);
+                    const nextLightLabel = nextLight === 'default' ? 'Default' : nextLight === 'bluemoon' ? 'Blue Moon' : nextLight.charAt(0).toUpperCase() + nextLight.slice(1);
+                    icon.title = `Klik untuk ganti tema terang (berikutnya: ${nextLightLabel})`;
+                }
+            }
+
+            function getNextLightVariant(current) {
+                if (current === 'default') return 'bluemoon';
+                if (current === 'bluemoon') return 'gold';
+                if (current === 'gold') return 'emerald';
+                return 'default';
+            }
 
             // Apply saved state
-            document.body.classList.toggle('dark', savedEnabled);
-            if (savedEnabled) document.body.setAttribute('data-theme', savedVariant);
-            else document.body.removeAttribute('data-theme');
-            toggle.checked = savedEnabled;
-            select.value = savedVariant;
-            container.classList.toggle('on', toggle.checked);
+            updateUI(savedEnabled, savedDarkVariant, savedLightVariant);
 
             // Toggle change
             toggle.addEventListener('change', () => {
                 const enabled = toggle.checked;
-                document.body.classList.toggle('dark', enabled);
-                if (enabled) {
-                    const variant = select.value || 'soft';
-                    document.body.setAttribute('data-theme', variant);
-                } else {
-                    document.body.removeAttribute('data-theme');
-                }
-                container.classList.toggle('on', enabled);
+                const darkVariant = localStorage.getItem('darkTheme') || 'soft';
+                const lightVariant = localStorage.getItem('lightTheme') || 'default';
                 localStorage.setItem('darkMode', enabled);
+                updateUI(enabled, darkVariant, lightVariant);
             });
 
-            // Variant change
-            select.addEventListener('change', () => {
-                const variant = select.value || 'soft';
-                localStorage.setItem('darkTheme', variant);
-                if (toggle.checked) {
-                    document.body.setAttribute('data-theme', variant);
+            // Cycle theme variant on icon click
+            icon.addEventListener('click', () => {
+                const enabled = toggle.checked;
+                const darkVariant = localStorage.getItem('darkTheme') || 'soft';
+                const lightVariant = localStorage.getItem('lightTheme') || 'default';
+                
+                if (enabled) {
+                    let nextDark = 'soft';
+                    if (darkVariant === 'soft') nextDark = 'dim';
+                    else if (darkVariant === 'dim') nextDark = 'amoled';
+                    
+                    localStorage.setItem('darkTheme', nextDark);
+                    updateUI(true, nextDark, lightVariant);
+                } else {
+                    const nextLight = getNextLightVariant(lightVariant);
+                    localStorage.setItem('lightTheme', nextLight);
+                    updateUI(false, darkVariant, nextLight);
                 }
             });
         }

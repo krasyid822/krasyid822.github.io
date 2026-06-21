@@ -55,21 +55,25 @@
         }
 
         .repo-search-row {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) auto;
-            gap: 12px;
-            align-items: center;
+            position: relative;
+            width: 100%;
         }
 
         .repo-search-input {
             width: 100%;
             min-width: 0;
-            padding: 14px 16px;
+            padding: 14px 44px 14px 16px;
             border-radius: 16px;
             border: 1px solid var(--border-color);
             font: inherit;
             color: var(--text-color);
             background: var(--card-background);
+            box-sizing: border-box;
+        }
+
+        .repo-search-input::-webkit-search-cancel-button {
+            -webkit-appearance: none;
+            display: none;
         }
 
         .repo-search-input::placeholder {
@@ -77,16 +81,30 @@
             opacity: 1;
         }
 
-        .repo-clear-button {
-            padding: 14px 16px;
+        .repo-clear-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
             border: none;
-            border-radius: 16px;
             cursor: pointer;
-            font: inherit;
-            font-weight: 700;
-            color: #ffffff;
-            background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
-            box-shadow: 0 10px 20px rgba(29, 78, 216, 0.22);
+            padding: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted-color);
+            transition: color 0.2s ease;
+        }
+
+        .repo-clear-icon:hover {
+            color: var(--text-color);
+        }
+
+        .repo-clear-icon svg {
+            width: 20px;
+            height: 20px;
+            display: block;
         }
 
         .repo-metrics {
@@ -162,7 +180,6 @@
                 border-radius: 16px;
             }
 
-            .repo-search-row,
             .repo-metrics {
                 grid-template-columns: 1fr;
             }
@@ -174,10 +191,6 @@
             .repo-dark-actions {
                 width: 100%;
                 justify-content: flex-start;
-            }
-
-            .repo-clear-button {
-                width: 100%;
             }
 
             .repo-status {
@@ -399,8 +412,8 @@
     darkModeCard.innerHTML = `
         <div class="dark-toggle repo-dark-toggle" title="Toggle dark mode">
             <div class="repo-dark-text">
-                <div style="font-weight: 700; font-size: 1rem;">Dark Mode</div>
-                <div style="font-size: 0.84rem; opacity: 0.72;">Soft, Dim, atau AMOLED</div>
+                <div id="darkModeTitle" style="font-weight: 700; font-size: 1rem;">Dark Mode</div>
+                <div id="darkModeSub" style="font-size: 0.84rem; opacity: 0.72;">Soft, Dim, atau AMOLED</div>
             </div>
             <div class="repo-dark-actions">
                 <label class="switch">
@@ -408,11 +421,6 @@
                     <span class="slider"></span>
                 </label>
                 <span class="toggle-icon" aria-hidden="true" style="width: 24px; height: 24px;"></span>
-                <select id="darkThemeVariant" title="Theme variant" aria-label="Theme variant">
-                    <option value="soft">Soft</option>
-                    <option value="dim">Dim</option>
-                    <option value="amoled">AMOLED</option>
-                </select>
             </div>
         </div>
     `;
@@ -429,8 +437,14 @@
 
     const clearButton = document.createElement('button');
     clearButton.type = 'button';
-    clearButton.textContent = 'Bersihkan';
-    clearButton.className = 'repo-clear-button';
+    clearButton.className = 'repo-clear-icon';
+    clearButton.setAttribute('aria-label', 'Bersihkan pencarian');
+    clearButton.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+    `;
 
     const metrics = document.createElement('div');
     metrics.className = 'repo-metrics';
@@ -1316,12 +1330,22 @@
         }
     }
 
+    function updateClearButtonVisibility() {
+        if (searchInput.value.trim() !== '') {
+            clearButton.style.display = 'flex';
+        } else {
+            clearButton.style.display = 'none';
+        }
+    }
+
     searchInput.addEventListener('input', () => {
+        updateClearButtonVisibility();
         renderRepos();
     });
 
     clearButton.addEventListener('click', () => {
         searchInput.value = '';
+        updateClearButtonVisibility();
         searchInput.focus();
         renderRepos();
     });
@@ -1332,44 +1356,81 @@
 
     function initDarkMode() {
         const toggle = document.getElementById('darkModeToggle');
-        const select = document.getElementById('darkThemeVariant');
+        const icon = document.querySelector('.toggle-icon');
         const container = document.querySelector('.dark-toggle');
+        const title = document.getElementById('darkModeTitle');
+        const sub = document.getElementById('darkModeSub');
 
-        if (!toggle || !select || !container) return;
+        if (!toggle || !icon || !container || !title || !sub) return;
 
         const savedEnabled = localStorage.getItem('darkMode') === 'true';
-        const savedVariant = localStorage.getItem('darkTheme') || 'soft';
+        const savedDarkVariant = localStorage.getItem('darkTheme') || 'soft';
+        const savedLightVariant = localStorage.getItem('lightTheme') || 'default';
 
-        document.body.classList.toggle('dark', savedEnabled);
-        if (savedEnabled) {
-            document.body.setAttribute('data-theme', savedVariant);
-        } else {
-            document.body.removeAttribute('data-theme');
+        function updateUI(enabled, darkVariant, lightVariant) {
+            document.body.classList.toggle('dark', enabled);
+            container.classList.toggle('on', enabled);
+            toggle.checked = enabled;
+            
+            if (enabled) {
+                document.body.setAttribute('data-theme', darkVariant);
+                const variantLabel = darkVariant.charAt(0).toUpperCase() + darkVariant.slice(1);
+                title.textContent = `Dark Mode (${variantLabel})`;
+                sub.textContent = 'Klik ikon bulan untuk ganti varian';
+                icon.title = `Klik untuk ganti tema (aktif: ${variantLabel})`;
+            } else {
+                if (lightVariant === 'default') {
+                    document.body.removeAttribute('data-theme');
+                    title.textContent = 'Light Mode (Default)';
+                    sub.textContent = 'Klik ikon matahari untuk ganti varian';
+                } else {
+                    document.body.setAttribute('data-theme', lightVariant);
+                    const variantLabel = lightVariant === 'bluemoon' ? 'Blue Moon' : lightVariant.charAt(0).toUpperCase() + lightVariant.slice(1);
+                    title.textContent = `Light Mode (${variantLabel})`;
+                    sub.textContent = 'Klik ikon matahari untuk ganti varian';
+                }
+                const nextLight = getNextLightVariant(lightVariant);
+                const nextLightLabel = nextLight === 'default' ? 'Default' : nextLight === 'bluemoon' ? 'Blue Moon' : nextLight.charAt(0).toUpperCase() + nextLight.slice(1);
+                icon.title = `Klik untuk ganti tema terang (berikutnya: ${nextLightLabel})`;
+            }
         }
 
-        toggle.checked = savedEnabled;
-        select.value = savedVariant;
-        container.classList.toggle('on', toggle.checked);
+        function getNextLightVariant(current) {
+            if (current === 'default') return 'bluemoon';
+            if (current === 'bluemoon') return 'gold';
+            if (current === 'gold') return 'emerald';
+            return 'default';
+        }
 
+        // Apply saved state
+        updateUI(savedEnabled, savedDarkVariant, savedLightVariant);
+
+        // Toggle change
         toggle.addEventListener('change', () => {
             const enabled = toggle.checked;
-            document.body.classList.toggle('dark', enabled);
-            if (enabled) {
-                const variant = select.value || 'soft';
-                document.body.setAttribute('data-theme', variant);
-            } else {
-                document.body.removeAttribute('data-theme');
-            }
-
-            container.classList.toggle('on', enabled);
+            const darkVariant = localStorage.getItem('darkTheme') || 'soft';
+            const lightVariant = localStorage.getItem('lightTheme') || 'default';
             localStorage.setItem('darkMode', String(enabled));
+            updateUI(enabled, darkVariant, lightVariant);
         });
 
-        select.addEventListener('change', () => {
-            const variant = select.value || 'soft';
-            localStorage.setItem('darkTheme', variant);
-            if (toggle.checked) {
-                document.body.setAttribute('data-theme', variant);
+        // Cycle theme variant on icon click
+        icon.addEventListener('click', () => {
+            const enabled = toggle.checked;
+            const darkVariant = localStorage.getItem('darkTheme') || 'soft';
+            const lightVariant = localStorage.getItem('lightTheme') || 'default';
+            
+            if (enabled) {
+                let nextDark = 'soft';
+                if (darkVariant === 'soft') nextDark = 'dim';
+                else if (darkVariant === 'dim') nextDark = 'amoled';
+                
+                localStorage.setItem('darkTheme', nextDark);
+                updateUI(true, nextDark, lightVariant);
+            } else {
+                const nextLight = getNextLightVariant(lightVariant);
+                localStorage.setItem('lightTheme', nextLight);
+                updateUI(false, darkVariant, nextLight);
             }
         });
     }

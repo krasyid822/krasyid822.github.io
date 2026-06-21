@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /page404.html
 
 Sitemap: https://krasyid822.github.io/sitemap.xml
